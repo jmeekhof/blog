@@ -26,11 +26,19 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://blog.twotheleft.com" # the base hostname & protocol for your site, e.g. http://example.com
 github_username: jmeekhof
 
+timezone: America/New_York
+
 # Build settings
 # theme: minima
 theme: jekyll-theme-chirpy
 plugins:
   - jekyll-feed
+defaults:
+  - scope:
+      path: _posts
+    values:
+      layout: post
+      author: jmeekhof
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to

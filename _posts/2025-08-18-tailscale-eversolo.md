@@ -1,9 +1,10 @@
 ---
-layout: post
 title: Tailscale and Eversolo
 date: 2025-08-18
-categories: tailscale eversolo android music navidrome
-author: Josh Meekhof
+categories: [tailscale, eversolo, android, music, navidrome]
+tags: tailscale eversolo android music navidrome
+author: jmeekhof
+pin: true
 ---
 
 ## Introduction
@@ -40,18 +41,22 @@ my music to my devices.
 ### Navidrome
 
 Navidrome is a really nice piece of software.
-I like that it makes my music searchable, and supports live encoding to mp3 or aac for devices that don't support flac.
+I like that it makes my music searchable, and supports live encoding to mp3 or
+aac for devices that don't support flac.
 
 When I'm mobile, I use symfonium to browse my music and play it on my phone.
 Thanks to Navidrome and Tailscale it's easy to do this securely.
 
-To accomplish this I create a pod for navidrome and run navidrome, and caddy (with the talescale plugin) in the pod.
+To accomplish this I create a pod for navidrome and run navidrome, and caddy
+(with the tailscale plugin) in the pod.
 
 navidrome.pod
+
 {% highlight systemd %}
 [Pod]
 PodName=navidrome
 PublishPort=4533:4533
+
 {% endhighlight %}
 
 navidrome.container
