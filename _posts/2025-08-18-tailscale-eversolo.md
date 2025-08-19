@@ -6,10 +6,11 @@ categories: tailscale eversolo android music navidrome
 author: Josh Meekhof
 ---
 
-# Introduction
+## Introduction
 
 Anyone who knows me will tell you that I've been on a Tailscale kick lately.
-I've been using it to connect all my devices and generally manage my network safely and securely.
+I've been using it to connect all my devices and generally manage my network
+safely and securely.
 
 Not too long ago I acquired a server.
 I have a handful of things that I do with it.
@@ -20,16 +21,21 @@ I have a handful of things that I do with it.
 - Photo backup and hosting
 - Recipe storage
 
-All (except for the file serving) of these services I run in containers using Podman.
+All (except for the file serving) of these services I run in containers using
+Podman.
 I'm using systemd and [quadlets][quadlets] to keep all of them running.
-Using quadlets makes it easy to slide a Tailscale container into the mix for each of the services, and makes it easy to [share with Tailscale][tailscale-share].
+Using quadlets makes it easy to slide a Tailscale container into the mix for
+each of the services, and makes it easy to [share with
+Tailscale][tailscale-share].
 
 ## Music
 
 Let's talk a bit about music.
 I've taken my collection of digital music and stored it on my server.
-It's mostly flac files, and I use [beets][beets-io] to keep the metadata maintained.
-Not too long ago I discovered [Navidrome][navidrome], and using it serve my music to my devices.
+It's mostly flac files, and I use [beets][beets-io] to keep the metadata
+maintained.
+Not too long ago I discovered [Navidrome][navidrome], and I am using it serve
+my music to my devices.
 
 ### Navidrome
 
@@ -126,7 +132,7 @@ DNS names.
 It's hardly a secret the Eversolo is using a heavily modified version of
 Android as their operating system.
 It's also hardly a secret that you can [sideload applications][sideload] onto
-these devices.
+these devices too.
 
 With this knowledge I installed the Android Tailscale client onto my DMP-A6,
 joined it to my tailnet, and tagged it.
