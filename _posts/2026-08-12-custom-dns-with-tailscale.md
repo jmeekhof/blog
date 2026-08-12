@@ -5,6 +5,7 @@ categories: [tailscale, dns, caddy, route53, podman]
 tags: tailscale dns caddy route53 letsencrypt dnsscale
 author: jmeekhof
 pin: true
+mermaid: true
 ---
 
 ## Introduction
@@ -82,6 +83,34 @@ What I landed on:
 - The `ts.net` names get demoted to plumbing: transport,
   service-to-service calls, and node identity.
   Humans type `twotheleft.com`; machines keep talking `ts.net`.
+
+Here's the whole thing on one napkin:
+
+```mermaid
+flowchart TB
+  client([browser on the tailnet])
+
+  subgraph dns["public DNS"]
+    wild["*.twotheleft.com<br>one wildcard record<br>→ the server's tailnet address"]
+    direct["valheim.twotheleft.com …<br>per-node records for game servers<br>(managed by dnsscale)"]
+  end
+
+  subgraph server["the server"]
+    caddy["system Caddy<br>one wildcard certificate"]
+    subgraph unit["per-service unit"]
+      ts["tailscale sidecar<br>svc.ts.net"]
+      app["app container"]
+    end
+    game["game server<br>raw UDP, no proxy"]
+  end
+
+  client -->|"https://svc.twotheleft.com"| wild
+  wild --> caddy
+  caddy -->|"reverse_proxy 127.0.0.1:port"| app
+  client -->|"udp://valheim.twotheleft.com"| direct
+  direct --> game
+  ts -.->|"service-to-service<br>stays on ts.net"| app
+```
 
 Adding a service used to mean a DNS record, a certificate, and an ACME
 round trip.
@@ -192,6 +221,26 @@ challenge record to confirm it propagated before telling Let's Encrypt to
 validate, and that poll *seeded* the negative cache that then convinced it
 the record didn't exist.
 Every `dig` I ran to debug it made it worse.
+
+```mermaid
+sequenceDiagram
+    participant Caddy as Caddy (ACME client)
+    participant UDM as Dream Machine
+    participant R53 as Route53
+    participant LE as Let's Encrypt
+
+    Caddy->>R53: create challenge TXT (API, port 443)
+    Note over R53: record exists
+    Caddy->>UDM: has the TXT propagated? (port 53)
+    UDM-->>Caddy: NXDOMAIN
+    Note over UDM: …and now that absence<br>is cached for 15 minutes
+    loop until timeout
+        Caddy->>UDM: how about now?
+        UDM-->>Caddy: NXDOMAIN (from cache)
+    end
+    Caddy--xLE: never asks for validation
+    Note over LE: would have said yes —<br>it queries the real nameservers
+```
 
 The fix is to disable the local propagation self-check and just wait:
 
