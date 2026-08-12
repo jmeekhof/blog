@@ -104,10 +104,10 @@ flowchart TB
     game["game server<br>raw UDP, no proxy"]
   end
 
-  client -->|"https://svc.twotheleft.com"| wild
+  client -->|"svc.twotheleft.com (https)"| wild
   wild --> caddy
   caddy -->|"reverse_proxy 127.0.0.1:port"| app
-  client -->|"udp://valheim.twotheleft.com"| direct
+  client -->|"valheim.twotheleft.com (udp)"| direct
   direct --> game
   ts -.->|"service-to-service<br>stays on ts.net"| app
 ```
