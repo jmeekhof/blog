@@ -33,6 +33,11 @@ timezone: America/New_York
 theme: jekyll-theme-chirpy
 plugins:
   - jekyll-feed
+  - jekyll-paginate
+
+# Chirpy's home layout draws regular (unpinned) posts from paginator.posts,
+# so without this only pinned posts ever appear on the home page.
+paginate: 10
 defaults:
   - scope:
       path: _posts

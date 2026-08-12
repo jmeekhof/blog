@@ -4,6 +4,7 @@ date: 2026-08-12
 categories: [tailscale, dns, caddy, route53, podman]
 tags: tailscale dns caddy route53 letsencrypt dnsscale
 author: jmeekhof
+pin: true
 ---
 
 ## Introduction
